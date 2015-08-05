@@ -1,0 +1,1117 @@
+<div class="api_content">
+<h4 id="con_1">Trade API Method</h4>
+
+<p><b>1.</b> Organize your trading requirements.</p>
+
+<p><b>2.</b> Submit POST requests.</p>
+
+<p><b>3.</b> <span style="color: red;">Header must be declared with Content-Type:application/x-www-form-urlencoded</span></p>
+
+<p><b>4.</b> All requests echo back in JSON format.</p>
+
+<p><b>5.</b> Trade API only supports https requests.</p>
+
+<p><b>6.</b> apiV3 Submit to http://dev.api.huobi.com/apiv3 <br></p>
+
+<p><b>7.</b><span style="color: red;">Post API follows the way of POST a form.</span></p>
+
+<p><b>8.</b><span style="color: red;">MD5 signatures must be lowercased</span></p>
+
+<h4 id="con_10">Code Instance</h4>
+<pre>&lt;?php
+
+// keys
+define('ACCESS_KEY', 'xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxx');
+define('SECRET_KEY', 'xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxx');
+
+// use apiv3
+define('API_URL', 'https://api.huobi.com/apiv3');
+
+function httpRequest($pUrl, $pData){
+	$tCh = curl_init();
+	if($pData){
+		is_array($pData) &amp;&amp; $pData = http_build_query($pData);
+		curl_setopt($tCh, CURLOPT_POST, true);
+		curl_setopt($tCh, CURLOPT_POSTFIELDS, $pData);
+	}
+	curl_setopt($tCh, CURLOPT_HTTPHEADER, array("Content-type: application/x-www-form-urlencoded"));
+	curl_setopt($tCh, CURLOPT_URL, $pUrl);
+	curl_setopt($tCh, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($tCh, CURLOPT_SSL_VERIFYPEER, false);
+	$tResult = curl_exec($tCh);
+	curl_close($tCh);
+	$tmp = json_decode($tResult, 1);
+	if($tmp) {
+		$tResult = $tmp;
+	}
+	return $tResult;
+}
+
+function createSign($pParams = array()){
+	$pParams['secret_key'] = SECRET_KEY;
+	ksort($pParams);
+	$tPreSign = http_build_query($pParams);
+	$tSign = md5($tPreSign);
+	return strtolower($tSign);
+}
+
+function send2api($pParams, $extra = array()) {
+	$pParams['access_key'] = ACCESS_KEY;
+	$pParams['created'] = time();
+	$pParams['sign'] = createSign($pParams);
+	if($extra) {
+		$pParams = array_merge($pParams, $extra);
+	}
+	$tResult = httpRequest(API_URL, $pParams);
+	return $tResult;
+}
+
+function getAccountInfo(){
+	$tParams = $extra = array();
+	$tParams['method'] = 'get_account_info';
+	// no sign signature sample
+	// $extra['test'] = 'test';
+	$tResult = send2api($tParams, $extra);
+	return $tResult;
+}
+
+try {
+	var_dump(getAccountInfo());
+} catch (Exception $e) {
+	var_dump($e);
+}
+</pre>
+
+<h4 id="con_2">Error Code</h4>
+<p style="color: red;">Encrypted parameters sorted by a to z when sign generates.</p>
+<p>All JSON format errors will be echoed back when request fails or unexpected errors exist.</p>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>code</th>
+        <th>message</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>1</th>
+        <td>Server error</td>
+    </tr>
+    <tr>
+        <th>2</th>
+        <td>Not enough CNY</td>
+    </tr>
+    <tr>
+        <th>3</th>
+        <td>Restart failed</td>
+    </tr>
+    <tr>
+        <th>4</th>
+        <td>Trade over</td>
+    </tr>
+    <tr>
+        <th>10</th>
+        <td>Not enough BTC</td>
+    </tr>
+    <tr>
+	    <th>11</th>
+	    <td>Not enough LTC</td>
+    </tr>
+    <tr>
+        <th>18</th>
+        <td>Incorrect payment password</td>
+    </tr>
+    <tr>
+        <th>26</th>
+        <td>Order is not exist</td>
+    </tr>
+    <tr>
+        <th>41</th>
+        <td>Filled order, unable to modify</td>
+    </tr>
+    <tr>
+        <th>42</th>
+        <td>Order has been cancelled, unable to modify</td>
+    </tr>
+    <tr>
+        <th>44</th>
+        <td>Price is too low</td>
+    </tr>
+    <tr>
+        <th>45</th>
+        <td>Price is too high</td>
+    </tr>
+    <tr>
+        <th>46</th>
+        <td>Minimum amount is 0.001</td>
+    </tr>
+    <tr>
+        <th>47</th>
+        <td>Exceed the limit amount</td>
+    </tr>
+    <tr>
+        <th>55</th>
+        <td>10% higher than market price is not allowed</td>
+    </tr>
+    <tr>
+        <th>56</th>
+        <td>10% lower than market price is not allowed</td>
+    </tr>
+    <tr>
+        <th>64</th>
+        <td>Invalid request</td>
+    </tr>
+    <tr>
+        <th>65</th>
+        <td>Invalid method</td>
+    </tr>
+    <tr>
+        <th>66</th>
+        <td>Invalid access key</td>
+    </tr>
+    <tr>
+        <th>67</th>
+        <td>Invalid private key</td>
+    </tr>
+    <tr>
+        <th>68</th>
+        <td>Invalid price</td>
+    </tr>
+    <tr>
+        <th>69</th>
+        <td>Invalid amount</td>
+    </tr>
+    <tr>
+        <th>70</th>
+        <td>Invalid POST time</td>
+    </tr>
+    <tr>
+        <th>71</th>
+        <td>Overflowed requests</td>
+    </tr>
+    <tr>
+        <th>87</th>
+        <td>Buying price cannot exceed 1% of market price when transaction amount is less than 0.1 BTC.</td>
+    </tr>
+    <tr>
+        <th>88</th>
+        <td>Selling price cannot be lower 1% of market price when transaction amount is less than 0.1 BTC.</td>
+    </tr>
+    <tr>
+        <th>89</th>
+        <td>Buying price cannot exceed 1% of market price when transaction amount is less than 0.1 BTC.</td>
+    </tr>
+    <tr>
+        <th>90</th>
+        <td>Selling price cannot be lower 1% of market price when transaction amount is less than 0.1 BTC.</td>
+    </tr>
+    <tr>
+        <th>91</th>
+        <td>Invalid type</td>
+    </tr>
+    <tr>
+        <th>92</th>
+        <td>Buy price cannot be higher 10% than market price.</td>
+    </tr>
+    <tr>
+        <th>93</th>
+        <td>Sell price cannot be lower 10% than market price.</td>
+    </tr>
+    <tr>
+        <th>97</th>
+        <td>Please enter payment password.</td>
+    </tr>
+    <tr>
+        <th>107</th>
+        <td>Order is exist.</td>
+    </tr>
+    </tbody>
+</table>
+<h4 id="con_3">API Method</h4>
+<h5 id="con_4">Fetch Account -get_account_info</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: get_account_info</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;created=1386844119&amp;method=get_account_info&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>total</th>
+        <td>Transaction Amount</td>
+    </tr>
+    <tr>
+        <th>net_asset</th>
+        <td>Net Asset</td>
+    </tr>
+    <tr>
+        <th>available_cny_display</th>
+        <td>Available CNY</td>
+    </tr>
+    <tr>
+        <th>available_btc_display</th>
+        <td>Available BTC</td>
+    </tr>
+    <tr>
+        <th>available_ltc_display</th>
+        <td>Available LTC</td>
+    </tr>
+    <tr>
+        <th>frozen_cny_display</th>
+        <td>Frozen CNY</td>
+    </tr>
+    <tr>
+        <th>frozen_btc_display</th>
+        <td>Frozen BTC</td>
+    </tr>
+    <tr>
+        <th>frozen_ltc_display</th>
+        <td>Frozen LTC</td>
+    </tr>
+    <tr>
+        <th>loan_cny_display</th>
+        <td>CNY Loan Amount</td>
+    </tr>
+    <tr>
+        <th>loan_btc_display</th>
+        <td>BTC Loan Amount</td>
+    </tr>
+    <tr>
+        <th>loan_ltc_display</th>
+        <td>LTC Loan Amount</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_5">Fetch Proceeding Orders -get_orders</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: get_orders</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;coin_type=1&amp;created=1386844119&amp;method=get_orders&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    <tr>
+        <th>type</th>
+        <td>Type: 1 -buy  2 -sell</td>
+    </tr>
+    <tr>
+        <th>order_price</th>
+        <td>Order Price</td>
+    </tr>
+    <tr>
+        <th>order_amount</th>
+        <td>Order Amount</td>
+    </tr>
+    <tr>
+        <th>processed_amount</th>
+        <td>Filled Amount</td>
+    </tr>
+    <tr>
+        <th>order_time</th>
+        <td>Order Time</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_9">Fetch Order Details -order_info</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: order_info</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <td>id</td>
+        <td>Required</td>
+        <td>Order ID</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;coin_type=1&amp;created=1386844119&amp;id=2&amp;method=order_info&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    <tr>
+        <th>type</th>
+        <td>Type: 1 -buy　2 -sell</td>
+    </tr>
+    <tr>
+        <th>order_price</th>
+        <td>Order Price</td>
+    </tr>
+    <tr>
+        <th>order_amount</th>
+        <td>Order Amount</td>
+    </tr>
+    <tr>
+        <th>processed_price</th>
+        <td>Average Filled Price</td>
+    </tr>
+    <tr>
+        <th>processed_amount</th>
+        <td>Filled Amount</td>
+    </tr>
+    <tr>
+        <td>vot</td>
+        <td>Volume</td>
+    </tr>
+    <tr>
+        <td>fee</td>
+        <td>Trading Fee</td>
+    </tr>
+    <tr>
+        <td>total</td>
+        <td>Total Transaction Amount</td>
+    </tr>
+    <tr>
+        <th>status</th>
+        <td>Status　0 -Waiting　1 -Partially filled　2 -Filled　3 -Cancelled</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_6">Buy -buy</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: buy</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>price</th>
+        <td>Required</td>
+        <td>Buy Price</td>
+    </tr>
+    <tr>
+        <th>amount</th>
+        <td>Required</td>
+        <td>Buy Amount</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;amount=10&amp;coin_type=1&amp;created=1386844119&amp;method=buy&amp;price=5000&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    <tr>
+        <th>trade_id</th>
+        <td>Optional</td>
+        <td>No sign signature, Customized Order ID(Maximum 15 digits, unique value)</td>
+    </tr>
+    <tr>
+        <th>trade_password</th>
+        <td>Optional</td>
+        <td>No sign signature, payment password is required.</td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>result</th>
+        <td>Status: Success</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_7">Sell -sell</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: sell</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>price</th>
+        <td>Required</td>
+        <td>Buy Price</td>
+    </tr>
+    <tr>
+        <th>amount</th>
+        <td>Required</td>
+        <td>Buy Amount</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;amount=10&amp;coin_type=1&amp;created=1386844119&amp;method=sell&amp;price=5000&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    <tr>
+        <th>trade_password</th>
+        <td>Optional</td>
+        <td>No sign signature, payment password is required.</td>
+    </tr>
+    <tr>
+        <th>trade_id</th>
+        <td>Optional</td>
+        <td>No sign signature, Customized Order ID(Maximum 15 digits, unique value)</td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>result</th>
+        <td>Status: Success</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_12">Market Buy -buy_market</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: buy_market</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>amount</th>
+        <td>Required</td>
+        <td>Buy Amount</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;amount=10&amp;coin_type=1&amp;created=1386844119&amp;method=buy_market&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    <tr>
+        <th>trade_password</th>
+        <td>Optional</td>
+        <td>No sign signature, payment password is required.</td>
+    </tr>
+    <tr>
+        <th>trade_id</th>
+        <td>Optional</td>
+        <td>No sign signature, Customized Order ID(Maximum 15 digits, unique value)</td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>result</th>
+        <td>Status: Success</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_13">Market Sell -sell_market</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: sell_market</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>amount</th>
+        <td>Required</td>
+        <td>Sell Amount</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;amount=10&amp;coin_type=1&amp;created=1386844119&amp;method=sell_market&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    <tr>
+        <th>trade_password</th>
+        <td>Optional</td>
+        <td>No sign signature, payment password is required.</td>
+    </tr>
+    <tr>
+        <th>trade_id</th>
+        <td>Optional</td>
+        <td>No sign signature, Customized Order ID(Maximum 15 digits, unique value)</td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>result</th>
+        <td>Status: Success</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_8">Order Cancellation -cancel_order</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: cancel_order</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>Required</td>
+        <td>Canceled Order ID</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign = md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;coin_type=1&amp;created=1386844119&amp;id=1&amp;method=cancel_order&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>result</th>
+        <td>Status: Success</td>
+    </tr>
+    </tbody>
+</table>
+<h5 id="con_11">Order Modification -modify_order</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: modify_order</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>Required</td>
+        <td>Order ID</td>
+    </tr>
+    <tr>
+        <th>price</th>
+        <td>Required</td>
+        <td>Order Price</td>
+    </tr>
+    <tr>
+        <th>amount</th>
+        <td>Required</td>
+        <td>Order Amount</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2" style="word-break: break-all;">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;amount=10&amp;coin_type=1&amp;created=1386844119&amp;id=98658&amp;method=modify_order&amp;price=5000&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>result</th>
+        <td>Status: Success</td>
+    </tr>
+    <tr>
+        <th>id</th>
+        <td>New Order ID</td>
+    </tr>
+    </tbody>
+</table>
+
+<h5 id="con_14">Inquire last 10 orders -get_new_deal_orders</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: get_new_deal_orders</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2">sign =
+            md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;coin_type=1&amp;created=1386844119&amp;method=get_new_deal_orders&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>id</th>
+        <td>Order ID</td>
+    </tr>
+    <tr>
+        <th>type</th>
+        <td>Type: 1 -buy  2 -sell</td>
+    </tr>
+    <tr>
+        <th>order_price</th>
+        <td>Order Price</td>
+    </tr>
+    <tr>
+        <th>order_amount</th>
+        <td>Order Amount</td>
+    </tr>
+    <tr>
+        <th>last_processed_time</th>
+        <td>Last processed time</td>
+    </tr>
+    <tr>
+        <th>processed_amount</th>
+        <td>Filled Amount</td>
+    </tr>
+    <tr>
+        <th>order_time</th>
+        <td>Order Time</td>
+    </tr>
+    <tr>
+        <th>status</th>
+        <td>Status　0 -Waiting　1 -Partially filled　2 -Filled　3 -Cancelled</td>
+    </tr>
+    </tbody>
+</table>
+
+
+<h5 id="con_15">Inquire last 10 orders -get_order_id_by_trade_id</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Req'd</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>method</th>
+        <td>Required</td>
+        <td>Request method: get_order_id_by_trade_id</td>
+    </tr>
+    <tr>
+        <th>access_key</th>
+        <td>Required</td>
+        <td>Access Key</td>
+    </tr>
+    <tr>
+        <th>coin_type</th>
+        <td>Required</td>
+        <td>Type: 1 -Bitcoin  2 -Litecoin</td>
+    </tr>
+    <tr>
+        <th>created</th>
+        <td>Required</td>
+        <td>Submit 10 digits timestamp</td>
+    </tr>
+    <tr>
+        <th>trade_id</th>
+        <td>Required</td>
+        <td>The same as trade_id of buy/sell interface</td>
+    </tr>
+    <tr>
+        <th>sign</th>
+        <td>Required</td>
+        <td>MD5 Signature</td>
+    </tr>
+    <tr>
+        <th>Encryption Instance</th>
+        <td colspan="2" style="word-break: break-all;">sign = md5(access_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;coin_type=1&amp;created=1386844119&amp;method=get_order_id_by_trade_id&amp;secret_key=xxxxxxxx-xxxxxxxx-xxxxxxxx-xxxxxxxx&amp;trade_id=1)
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h5>Results</h5>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Field name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>order_id</th>
+        <td>Order ID</td>
+    </tr>
+    </tbody>
+</table>
+
+</div>
