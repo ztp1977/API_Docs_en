@@ -16,15 +16,15 @@ Welcome market strategy users to apply for a market-making account. Please provi
 
 # Websocket API(Market)
 
-* [General](https://github.com/huobiapi/API_Docs/wiki/WS_General)
-* [Reference](https://github.com/huobiapi/API_Docs/wiki/WS_Reference)
+* [General](https://github.com/huobiapi/API_Docs_en/wiki/WS_General/WS_General)
+* [Reference](https://github.com/huobiapi/API_Docs_en/wiki/WS_Reference)
 * [Demo](https://github.com/huobiapi/WebSocket-API-demos)
 
 # REST API(Market & Trade)
 
-* [Signing API Requests(Important)](https://github.com/huobiapi/API_Docs/wiki/Signing_API_Requests)
-* [Request Process](https://github.com/huobiapi/API_Docs/wiki/Request_Process)
-* [Reference](https://github.com/huobiapi/API_Docs/wiki/REST_Reference)
+* [Signing API Requests(Important)](https://github.com/huobiapi/API_Docs_en/wiki/Signing_API_Requests)
+* [Request Process](https://github.com/huobiapi/API_Docs_en/wiki/Request_Process)
+* [Reference](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference)
 * [Demo](https://github.com/huobiapi/REST-API-demos)
 
 中文文档 [点击这里](/../../../API_Docs/wiki/)
