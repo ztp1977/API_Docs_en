@@ -1,5 +1,5 @@
 ### CHANGELOG
-- `2018.6.20` - WebSocket added Tickers,Restful added Market Tickers. Tickers：Subscribes and gets all current trading pairs.
+`2018.6.20` - WebSocket added Tickers,Restful added Market Tickers. Tickers：Subscribes and gets all current trading pairs.
 
 `2018.6.29` -Huobi API Change Notification
 * Summary: API enhancements to support HB10 ETF purchase and redemption
