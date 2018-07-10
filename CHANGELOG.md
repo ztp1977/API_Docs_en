@@ -25,4 +25,12 @@ The changes mentioned above are backward compatible for all existing API users. 
   - new API: provide open orders of a symbol for an account：`/v1/order/openOrders`。
   - new API:cancel a batch of orders with certain criteria：`/v1/order/openBatchCancel`。
   
-  **Change Effective date:**  July 6nd, 2018, 16:00 Beijing Time
+  **Change Effective date:**  July 6th, 2018, 16:00 Beijing Time
+
+- `2018.7.10`
+
+  **Summary:** 
+  - In `/market/history/kline` the value range of the parameter `size` is [1-2000] now。
+  - Add `/quotation/market/history/kline` ETF net asset value Detail
+  
+  **Change Effective date:** July 10th, 2018, 11:00 Beijing Time
