@@ -27,7 +27,7 @@ The changes mentioned above are backward compatible for all existing API users. 
   
   **Change Effective date:**  July 6th, 2018, 16:00 Beijing Time
 
-- `2018.7.10`
+`2018.7.10`
 
   **Summary:** 
   - In `/market/history/kline` the value range of the parameter `size` is [1-2000] now。
