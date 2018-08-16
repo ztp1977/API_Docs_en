@@ -8,10 +8,11 @@ Pro： api.huobi.pro
 
 HADAX：api.hadax.com
 
-Welcome market strategy users to apply for a market-making account. Please provide the following information to MM_service@huobi.com when you have a minimum of 30BTC in your account at Huobi.pro（Point card , VIP or other rebate will not be supported while being market-making account）:
-
-> 1. Your UID at Huobi.pro
-> 2. Trading volume or VIP/Corporate status on other platforms. (Screenshot)
+Application Process as Market Maker on Huobi Global
+If you comply with our eligibility criteria and is interested to participate in our market-making project, please email to MM_service@huobi.com with following information:
+> 1. UIDs (not linked to any rebate program in any accounts);
+> 2. Provide screenshot of trading volume for the past 30 days or VIP/corporate status with other Exchanges;
+> 3. A short presentation of your market-making strategy.
 
 *If your have any question about using API, contact api_service@huobi.com please.
 
