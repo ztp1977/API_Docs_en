@@ -14,8 +14,6 @@ If you comply with our eligibility criteria and is interested to participate in 
 > 2. Provide screenshot of trading volume for the past 30 days or VIP/corporate status with other Exchanges;
 > 3. A short presentation of your market-making strategy.
 
-*If your have any question about using API, contact api_service@huobi.com please.
-
 # Websocket API(Market)
 
 * [General](https://github.com/huobiapi/API_Docs_en/wiki/WS_General/WS_General)
