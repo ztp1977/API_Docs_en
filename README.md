@@ -8,6 +8,12 @@ Pro： api.huobi.pro
 
 HADAX：api.hadax.com
 
+Eligibility Criteria as a Market Maker on Huobi Global
+> 1. You should possess good market strategy;
+> 2. You must have at least 30 BTC or equivalent assets, not including rebates in your account with Huobi Global;
+> 3. You will not be entitled to any Point card, VIP or rebate programs;
+> 4. You will be subjected to performance evaluation at end of each calendar month by our ranking mechanism whereby the ranking is based on your average daily volume. You will be disqualified as a market-maker if your ranking remained the lowest at the end of each month.
+
 Application Process as Market Maker on Huobi Global
 If you comply with our eligibility criteria and is interested to participate in our market-making project, please email to MM_service@huobi.com with following information:
 > 1. UIDs (not linked to any rebate program in any accounts);
