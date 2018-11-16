@@ -8,6 +8,8 @@ Pro： api.huobi.pro
 
 HADAX：api.hadax.com
 
+HBDM:api.hbdm.com
+
 Eligibility Criteria as a Market Maker on Huobi Global
 > 1. You should possess good market strategy;
 > 2. You must have at least 20 BTC or equivalent assets, not including rebates in your account with Huobi Global;
@@ -20,21 +22,22 @@ If you comply with our eligibility criteria and is interested to participate in 
 > 2. Provide screenshot of trading volume for the past 30 days or VIP/corporate status with other Exchanges;
 > 3. A short presentation of your market-making strategy.
 
-# Websocket API(Market)
+# Huobi Global
+## Websocket API(Market)
 
 * [General](https://github.com/huobiapi/API_Docs_en/wiki/WS_General/WS_General)
 * [Reference](https://github.com/huobiapi/API_Docs_en/wiki/WS_Reference)
 * Demo:[Python3](https://github.com/huobiapi/Websocket-Python3-demo)  [Node.js](https://github.com/huobiapi/WebSocket-Node.js-demo)  [PHP](https://github.com/huobiapi/WebSocket-PHP-demo) 
  [CSharp](https://github.com/huobiapi/WebSocket-CSharp-demo) 
 
-# REST API(Market & Trade)
+## REST API(Market & Trade)
 
 * [Signing API Requests(Important)](https://github.com/huobiapi/API_Docs_en/wiki/Signing_API_Requests)
 * [Request Process](https://github.com/huobiapi/API_Docs_en/wiki/Request_Process)
 * [Reference](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference)
 * Demo:[Python3](https://github.com/huobiapi/REST-Python3-demo) [Node.js](https://github.com/huobiapi/REST-Node.js-demo) [Java](https://github.com/huobiapi/REST-Java-demo) [C#](https://github.com/huobiapi/REST-CSharp-demo) [go](https://github.com/huobiapi/REST-GO-demo) [PHP](https://github.com/huobiapi/REST-PHP-demo) [C++](https://github.com/huobiapi/REST-Cpp-demo) [Objective-C](https://github.com/huobiapi/REST-ObjectiveC-demo) [QTC++](https://github.com/huobiapi/REST-QTCpp-demo) [Python2.7](https://github.com/huobiapi/REST-Python2.7-demo) [Ruby](https://github.com/huobiapi/REST-Ruby-demo) [易语言](https://github.com/huobiapi/REST-YiYuyan-demo)
 
-# SUB-UID API Usage
+## SUB-UID API Usage
 * An API Key of a sub users could not be linked to IP addresses, so it will be expired in 90 days.
 * Besides all open Market Data APIs, following APIs, which require signature are available for sub users. When sub users tries to access the other APIs not on this list, the system will return error-code 403.  
 
@@ -51,6 +54,17 @@ Request Mehtod|Description|
 [GET /v1/order/orders](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-v1orderorders--get-order-list) |	Search for a group of orders, which meet certain criteria (up to 100) |
 [GET /v1/order/matchresults](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-v1ordermatchresults----get-order-matchresults) |	Search for the trade records of an account|
 [GET /v1/order/openOrders](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-v1orderopenorders-provide-open-orders-of-a-symbol-for-an-account) |	Get the open orders of an account (up to 500)|
+
+# HBDM
+## Websocket API(Market)
+
+* [Reference](https://github.com/huobiapi/API_Docs_en/wiki/WS_api_reference_en)
+* Demo:代码示例：[Python](https://github.com/huobiapi/Futures-Python-demo) [Node.js](https://github.com/huobiapi/Futures-Node.js-demo)<br>
+
+## REST API(Market)
+
+* [Reference](https://github.com/huobiapi/API_Docs_en/wiki/API_Reference_Derivatives_en)
+** 代码示例：[Python](https://github.com/huobiapi/Futures-Python-demo)  [Java](https://github.com/huobiapi/Futures-Java-demo) [Node.js](https://github.com/huobiapi/Futures-Node.js-demo) [PHP](https://github.com/huobiapi/Futures-PHP-demo)<br>
 
 中文文档 [点击这里](/../../../API_Docs/wiki/)
 
