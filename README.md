@@ -8,7 +8,7 @@ Pro： api.huobi.pro
 
 HADAX：api.hadax.com
 
-HBDM:api.hbdm.com
+HBDM: api.hbdm.com
 
 Eligibility Criteria as a Market Maker on Huobi Global
 > 1. You should possess good market strategy;
