@@ -55,7 +55,7 @@ Request Mehtod|Description|
 [GET /v1/order/matchresults](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-v1ordermatchresults----get-order-matchresults) |	Search for the trade records of an account|
 [GET /v1/order/openOrders](https://github.com/huobiapi/API_Docs_en/wiki/REST_Reference#get-v1orderopenorders-provide-open-orders-of-a-symbol-for-an-account) |	Get the open orders of an account (up to 500)|
 
-# HBDM.com
+# hbdm.com
 ## Websocket API(Market)
 
 * [Reference](https://github.com/huobiapi/API_Docs_en/wiki/WS_api_reference_en)
