@@ -25,7 +25,7 @@ If you comply with our eligibility criteria and is interested to participate in 
 # Huobi Global
 ## Websocket API(Market)
 
-* [General](https://github.com/huobiapi/API_Docs_en/wiki/WS_General/WS_General)
+* [General](https://github.com/huobiapi/API_Docs_en/wiki/WS_General)
 * [Reference](https://github.com/huobiapi/API_Docs_en/wiki/WS_Reference)
 * Demo:[Python3](https://github.com/huobiapi/Websocket-Python3-demo)  [Node.js](https://github.com/huobiapi/WebSocket-Node.js-demo)  [PHP](https://github.com/huobiapi/WebSocket-PHP-demo) 
  [CSharp](https://github.com/huobiapi/WebSocket-CSharp-demo) 
