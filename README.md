@@ -4,9 +4,7 @@ All of the trading pairs in huobi.pro and hadax.com are supported.
 
 The root url is: 
 
-Pro： api.huobi.pro
-
-HADAX：api.hadax.com
+Global: api.huobi.pro
 
 HBDM: api.hbdm.com
 
