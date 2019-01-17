@@ -34,3 +34,10 @@ The changes mentioned above are backward compatible for all existing API users. 
   - Add `/quotation/market/history/kline` ETF net asset value Detail
   
   **Change Effective date:** July 10th, 2018, 11:00 Beijing Time
+`2019.01.17`
+
+  **Summary:** 
+  - Add 'mode' to subscribe account balance, when mode=0, subscribe available balance, when mode=1 subscribe total balance. Also 'frozen' balance is no longer available in the response
+  
+  **Change Effective date:** Jan. 17th, 2019, 7:00 Beijing Time
+
