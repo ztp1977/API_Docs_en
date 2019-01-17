@@ -34,6 +34,7 @@ The changes mentioned above are backward compatible for all existing API users. 
   - Add `/quotation/market/history/kline` ETF net asset value Detail
   
   **Change Effective date:** July 10th, 2018, 11:00 Beijing Time
+
 `2019.01.17`
 
   **Summary:** 
