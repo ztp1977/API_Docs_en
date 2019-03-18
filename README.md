@@ -56,7 +56,8 @@ Request Mehtod|Description|
 ## Websocket API(Market)
 
 * [Reference](https://github.com/huobiapi/API_Docs_en/wiki/WS_api_reference_en)
-* Demo：[Python](https://github.com/huobiapi/Futures-Python-demo) [Node.js](https://github.com/huobiapi/Futures-Node.js-demo)<br>
+* Demo：[Python](https://github.com/huobiapi/Futures-Python-demo) [Node.js](https://github.com/huobiapi/Futures-Node.js-demo)
+[java](https://github.com/huobiapi/Futures-Java-demo)<br>
 
 ## REST API(Market & Trade)
 
